@@ -25,12 +25,30 @@ export const useAuthStore =()=>{
         }
     }
 
+    const startRegister = async({email, name, password, password2})=>{
+        try {
+            let username = "Cesar";
+            let birthdate = "25 enero 2002";
+            const {data} = await calendarApi.post('/new', {name, username, password, birthdate});
+            localStorage.setItem('uid', data.uid);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            dispatch(onLogin({name: data.name, uid: data.uid}));
+                       
+        } catch (error) {
+           dispatch(onLogout('Credenciales Incorrectas'));
+           setTimeout(() => {
+                dispatch (clearErrorMessage());
+           }, 10);
+        }
+    }
     return {
         //*propiedades
         status, 
         user, 
         errorMessage,
-        startLogin
+        startLogin,
+        startRegister
 
         //* Metodosd
     }
