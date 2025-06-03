@@ -1,33 +1,34 @@
 
 const {response} = require('express'); 
-const Evento = require('../models/Evento');
+const Correctivo = require('../models/correctivo');
 
+// SE MOSTRARAN TODOS LOS EVENTOS
+const getCorrectivos = async ( req, res = response) => {
 
-const getEventos = async ( req, res = response) => {
-
-    const eventos = await Evento.find()
+    const correctivos = await Correctivo.find()
                                  .populate('user','name');
 
 
     res.json({
     ok: true,
-    eventos
+    correctivos
     });
 }
 
-const crearEvento = async ( req, res = response) => {
+// SE CREARAN NUEVOS MANTENIMINETOS CORRECTIVOS
+const crearCorrectivo = async ( req, res = response) => {
     
-    const evento = new Evento( req.body );
+    const correctivo = new Correctivo( req.body );
 
     try {
 
-        evento.user = req.uid;
+        correctivo.user = req.uid;
 
-        const eventoGuardado = await evento.save()
+        const correctivoGuardado = await correctivo.save()
 
         res.json({
             ok:true,
-            evento: eventoGuardado
+            correctivo: correctivoGuardado
         })
 
     } catch (error) {
@@ -39,39 +40,40 @@ const crearEvento = async ( req, res = response) => {
     }
 }
 
-const actualizarEvento = async ( req, res = response) => {
+// SE ACTUALIZARAN LOS MANTENIMIENTOS CORRECTIVOS
+const actualizarCorrectivo = async ( req, res = response) => {
 
-    const eventoId = req.params.id;
+    const correctivoId = req.params.id;
     const uid = req.uid;
     
     try{
 
-        const evento = await Evento.findById( eventoId );
+        const correctivo = await Correctivo.findById( correctivoId );
  
-        if ( !evento ){
+        if ( !correctivo ){
             return res.status(404).json({
                 ok: false,
                 msg: 'Evento no existe por ese Id'
             }); 
         }
 
-        if ( evento.user.toString() !== uid ) {
+        if ( correctivo.user.toString() !== uid ) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene autorización de editar este evento'
             });
         } 
         
-        const nuevoEvento = {
+        const nuevoCorrectivo = {
             ...req.body,
             user: uid
         }
 
-        const eventoActualizado = await Evento.findByIdAndUpdate( eventoId, nuevoEvento, { new: true }  );
+        const correctivoActualizado = await Correctivo.findByIdAndUpdate( correctivoId, nuevoCorrectivo, { new: true }  );
 
         res.json({
             ok: true,
-            evento: eventoActualizado
+            correctivo: correctivoActualizado
         }); 
 
     } catch(error) {
@@ -84,31 +86,31 @@ const actualizarEvento = async ( req, res = response) => {
     
 }
 
+// SE PODRAN ELIMINAR EVENTOS QUE SE HAYAN CREADO ANTES 
+const eliminarCorrectivo = async ( req, res = response) => {
 
-const eliminarEvento = async ( req, res = response) => {
-
-    const eventoId = req.params.id;
+    const correctivoId = req.params.id;
     const uid = req.uid;
     
     try{
 
-        const evento = await Evento.findById( eventoId );
+        const correctivo = await Correctivo.findById( correctivoId );
  
-        if ( !evento ){
+        if ( !correctivo ){
             return res.status(404).json({
                 ok: false,
                 msg: 'Evento no existe por ese Id'
             }); 
         }
 
-        if ( evento.user.toString() !== uid ) {
+        if ( correctivo.user.toString() !== uid ) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene autorización de eliminar este evento'
             });
         } 
         
-        await Evento.findByIdAndDelete( eventoId );
+        await Correctivo.findByIdAndDelete( correctivoId );
 
         res.json({ ok: true }); 
 
@@ -122,11 +124,11 @@ const eliminarEvento = async ( req, res = response) => {
      
 }
 
-
+// EXPORTACIONES
 
 module.exports ={
-    getEventos,
-    crearEvento,
-    actualizarEvento,
-    eliminarEvento
+    getCorrectivos,
+    crearCorrectivo,
+    actualizarCorrectivo,
+    eliminarCorrectivo
 }

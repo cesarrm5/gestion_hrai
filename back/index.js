@@ -25,7 +25,11 @@ app.use( express.json ());
 
 // Rutas 
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/events', require('./routes/events'));
+app.use('/api/preventivo', require('./routes/preventivo'));
+app.use('/api/correctivo', require('./routes/correctivo'));
+app.use('/api/inventario', require('./routes/inventario'));
+app.use('/api/capacitaciones', require('./routes/capacitaciones'));
+
 
 
 
