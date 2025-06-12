@@ -2,7 +2,7 @@
 const {response} = require('express'); 
 const Correctivo = require('../models/correctivo');
 
-// SE MOSTRARAN TODOS LOS EVENTOS
+// SE MOSTRARAN TODOS LOS MANTENIMIENTOS CORRECTIVOS
 const getCorrectivos = async ( req, res = response) => {
 
     const correctivos = await Correctivo.find()
@@ -41,6 +41,7 @@ const crearCorrectivo = async ( req, res = response) => {
 }
 
 // SE ACTUALIZARAN LOS MANTENIMIENTOS CORRECTIVOS
+
 const actualizarCorrectivo = async ( req, res = response) => {
 
     const correctivoId = req.params.id;
@@ -83,10 +84,10 @@ const actualizarCorrectivo = async ( req, res = response) => {
             msg: 'Hable con el administrador'
         });
     }
-    
 }
 
 // SE PODRAN ELIMINAR EVENTOS QUE SE HAYAN CREADO ANTES 
+
 const eliminarCorrectivo = async ( req, res = response) => {
 
     const correctivoId = req.params.id;

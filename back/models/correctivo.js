@@ -3,7 +3,9 @@ const {Schema, model} = require('mongoose');
 
 const CorrectivoSchema = Schema({
 
-    //Datos del equipo
+    // MANTENIMIENTOS CORRECTIVOS
+
+    //DATOS DEL EQUIPO
 
     nombredelequipo:{
         type: String,
@@ -27,7 +29,7 @@ const CorrectivoSchema = Schema({
         required: true
     },
 
-    //Datos de la Orden
+    //DATOS DE LA ORDEN DE SERVICIO
 
     folio: {
         type: String,
@@ -42,7 +44,7 @@ const CorrectivoSchema = Schema({
         required: true
     },
 
-    //Datos del solicitante
+    //DATOS DEL SOLICITANTE
 
     nombredelsolicitante: {
         type: String,
@@ -51,7 +53,7 @@ const CorrectivoSchema = Schema({
         type: String,
     },
 
-    //Datos del ingeniero de empresa externa que realizo mantenimiento
+    //DATOS DEL INGENIERO DE EMPRESA EXTERNA
 
     nombredelingeniero: {
         type: String,
@@ -70,27 +72,29 @@ const CorrectivoSchema = Schema({
         required: true
     },
 
-    //Tipo de Servicio
+    //TIPO DE SERVICIO
+
     mantpreventivo: {
-        type: String,
+        type: Boolean,
     },
     mantcorrectivo: {
-        type: String,
+        type: Boolean,
     },
     mantcapacitacion: {
-        type: String,
+        type: Boolean,
     },
     soportetecnico: {
-        type: String,
+        type: Boolean,
     },
     revision: {
-        type: String,
+        type: Boolean,
     },
     otros: {
-        type: String,
+        type: Boolean,
     },
 
-    //Notas
+    //NOTAS
+
     descripciondelafalla: {
         type: String,
         required: true
@@ -103,7 +107,8 @@ const CorrectivoSchema = Schema({
         type: String,
     },
     
-    // DECLARACIONES
+   // DATOS DEL USUARIO CREADOR
+
     user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',

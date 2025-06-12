@@ -24,12 +24,14 @@ app.use( express.static('public') );
 app.use( express.json ());
 
 // Rutas 
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/preventivo', require('./routes/preventivo'));
-app.use('/api/correctivo', require('./routes/correctivo'));
-app.use('/api/inventario', require('./routes/inventario'));
-app.use('/api/capacitaciones', require('./routes/capacitaciones'));
-
+app.use('/api/auth', require('./routes/auth')); // USUARIO //
+app.use('/api/preventivo', require('./routes/preventivo')); // MANTENIMIENTOS PREVENTIVOS //
+app.use('/api/correctivo', require('./routes/correctivo')); // MANTENIMIENTOS CORRECTIVOS //
+app.use('/api/inventario', require('./routes/inventario')); // INVENTARIO //
+app.use('/api/capacitaciones', require('./routes/capacitaciones')); // CAPACITACIONES //
+app.use('/api/participantes', require('./routes/participantes')); // PARTICIPANTES //
+app.use('/api/equipocapacitacion', require('./routes/equipocapacitacion')); // EQUIPO DE CAPACITACION //
+app.use('/api/agregarevento', require('./routes/agregarevento')); // AGREGAR EVENTO //
 
 
 

@@ -1,6 +1,8 @@
+
 const { response } = require('express');
 const Inventario = require('../models/Inventario');
 
+// SE MOSTRARAN TODOS LOS EQUIPOS REGISTRADOS
 
 const getInventario = async( req, res = response ) => { 
 
@@ -13,6 +15,8 @@ const getInventario = async( req, res = response ) => {
         inventario          
     })
 }
+
+// SE CREARAN NUEVOS EQUIPOS 
 
 const agregarEquipo = async ( req, res = response ) => { 
 
@@ -36,9 +40,9 @@ const agregarEquipo = async ( req, res = response ) => {
             msg: 'Hable con el administrador'
         });
     }
-
 }
 
+// SE ACTUALIZARAN LOS NUEVOS EQUIPOS
 
 const editarEquipo = async ( req, res = response) => {
 
@@ -81,9 +85,10 @@ const editarEquipo = async ( req, res = response) => {
             ok: false.valueOf,
             msg: 'Hable con el administrador'
         });
-    }
-    
+    } 
 }
+
+// SE PODRAN ELIMINAR LOS EQUIPOS REGISTRADOS
 
 const eliminarEquipo = async ( req, res = response) => {
 
@@ -121,6 +126,8 @@ const eliminarEquipo = async ( req, res = response) => {
     }
      
 }
+
+// EXPORTACIONES
 
 module.exports = {
     getInventario,

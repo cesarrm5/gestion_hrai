@@ -2,6 +2,8 @@ const {Schema, model} = require('mongoose');
 
 const UsuarioSchema = Schema({
 
+    // DATOS DEL USUARIO
+
     name: {
         type: String,
         required: true

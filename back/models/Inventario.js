@@ -2,6 +2,8 @@ const {Schema, model} = require('mongoose');
 
 const InventarioSchema = Schema({
 
+    // DATOS DEL EQUIPO A REGISTRAR
+
     id:{
         type: String,
         required: true
@@ -34,6 +36,9 @@ const InventarioSchema = Schema({
     notes: {
         type: String,
     },
+
+    // DATOS DEL USUARIO CREADOR
+    
     user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',

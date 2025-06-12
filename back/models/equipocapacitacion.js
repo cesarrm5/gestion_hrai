@@ -1,38 +1,27 @@
 const {Schema, model} = require('mongoose');
 
-const CapacitacionSchema = Schema({
+const EquipocapacitacionSchema = Schema({
 
-// DATOS DE LA CAPACITACION //
+    // DATOS DEL EQUIPO SOBRE LA CAPACITACION
 
-    Equipo:{
+    No:{
         type: String,
         required: true
     },
-    Folio: {
+
+    Nombre: {
         type: String,
         required: true
     },
-    Fecha: {
+    Marca: {
         type: String,
         required: true
     },
-    Duracion: {
+    Modelo: {
         type: String,
         required: true
     },
-    Dirigido: {
-        type: String,
-        required: true
-    },
-    Instructor: {
-        type: String,
-        required: true
-    },
-    Correo: {
-        type: String,
-        required: true
-    },
-    Area: {
+    Nodecontrol: {
         type: String,
         required: true
     },
@@ -44,12 +33,13 @@ const CapacitacionSchema = Schema({
         ref: 'Usuario',
         required: true
     }
+
 });
 
-CapacitacionSchema.method('toJSON', function(){
+EquipocapacitacionSchema.method('toJSON', function() {
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
     return object;
-})
+});
 
-module.exports = model('Capacitacion',CapacitacionSchema);
+module.exports = model('Equipocapacitacion', EquipocapacitacionSchema );

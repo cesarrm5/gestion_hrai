@@ -13,13 +13,13 @@ const { getInventario, agregarEquipo, editarEquipo, eliminarEquipo } = require('
 
 const router = Router();
 
-// Todas tienen que pasar por la validacion JWT
+// TODAS DEBEN ESTAR VALIDADAS POR JWT 
 router.use ( validarJWT );
 
-// Obtener inventario
+// OBTENER INVENTARIO
 router.get('/', getInventario);
 
-// Agregar nuevo equipo
+// AGREGAR NUEVO EQUIPO
 router.post(
     '/',
     [
@@ -35,10 +35,10 @@ router.post(
     agregarEquipo
 );
  
-// Editar equipo
+// EDITAR EQUIPO
 router.put('/:id',editarEquipo);
 
-// Editar equipo
+// ELIMINAR EQUIPO
 router.delete('/:id',eliminarEquipo);
 
 module.exports = router;

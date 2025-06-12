@@ -1,30 +1,18 @@
 const {Schema, model} = require('mongoose');
 
-const CapacitacionSchema = Schema({
+const ParticipanteSchema = Schema({
 
-// DATOS DE LA CAPACITACION //
+// DATOS DEL PARTICIPANTE //
 
-    Equipo:{
+    No:{
         type: String,
         required: true
     },
-    Folio: {
+    Nombre: {
         type: String,
         required: true
     },
-    Fecha: {
-        type: String,
-        required: true
-    },
-    Duracion: {
-        type: String,
-        required: true
-    },
-    Dirigido: {
-        type: String,
-        required: true
-    },
-    Instructor: {
+    Cargo: {
         type: String,
         required: true
     },
@@ -32,24 +20,25 @@ const CapacitacionSchema = Schema({
         type: String,
         required: true
     },
-    Area: {
+    Firma: {
         type: String,
         required: true
     },
 
     // DATOS DEL USUARIO CREADOR
     
-    user: {
+        user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: true
     }
+
 });
 
-CapacitacionSchema.method('toJSON', function(){
+ParticipanteSchema.method('toJSON', function(){
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
     return object;
 })
 
-module.exports = model('Capacitacion',CapacitacionSchema);
+module.exports = model('Participante',ParticipanteSchema);

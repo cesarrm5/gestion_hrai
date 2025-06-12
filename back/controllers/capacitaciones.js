@@ -2,12 +2,11 @@
 const {response} = require('express'); 
 const Capacitacion = require('../models/capacitaciones');
 
-// SE MOSTRARAN TODOS LOS EVENTOS
+// SE MOSTRARAN TODAS LAS CAPACITACIONES //
 const getCapacitaciones = async ( req, res = response) => {
 
     const capacitaciones = await Capacitacion.find()
                                  .populate('user','name');
-
 
     res.json({
     ok: true,
@@ -15,7 +14,8 @@ const getCapacitaciones = async ( req, res = response) => {
     });
 }
 
-// SE CREARAN NUEVOS EVENTOS
+
+// SE CREARAN NUEVAS CAPACITACIONES //
 const crearCapacitacion = async ( req, res = response) => {
     
     const capacitacion = new Capacitacion( req.body );
@@ -40,7 +40,8 @@ const crearCapacitacion = async ( req, res = response) => {
     }
 }
 
-// SE ACTUALIZARAN LOS EVENTOS CREADOS 
+
+// SE ACTUALIZARAN LAS CAPACITACIONES CREADAS // 
 const actualizarCapacitacion = async ( req, res = response) => {
 
     const capacitacionId = req.params.id;
@@ -53,14 +54,14 @@ const actualizarCapacitacion = async ( req, res = response) => {
         if ( !capacitacion ){
             return res.status(404).json({
                 ok: false,
-                msg: 'Evento no existe por ese Id'
+                msg: 'Capacitacion no existe por ese Id'
             }); 
         }
 
         if ( capacitacion.user.toString() !== uid ) {
             return res.status(401).json({
                 ok: false,
-                msg: 'No tiene autorización de editar este evento'
+                msg: 'No tiene autorización de editar esta capacitacion'
             });
         } 
         
@@ -83,10 +84,9 @@ const actualizarCapacitacion = async ( req, res = response) => {
             msg: 'Hable con el administrador'
         });
     }
-    
 }
 
-// SE PODRAN ELIMINAR EVENTOS QUE SE HAYAN CREADO ANTES 
+// SE PODRAN ELIMINAR CAPACITACIONES QUE SE HAYAN CREADO ANTES 
 const eliminarCapacitacion = async ( req, res = response) => {
 
     const capacitacionId = req.params.id;
@@ -99,14 +99,14 @@ const eliminarCapacitacion = async ( req, res = response) => {
         if ( !capacitacion ){
             return res.status(404).json({
                 ok: false,
-                msg: 'Evento no existe por ese Id'
+                msg: 'Capacitacion no existe por ese Id'
             }); 
         }
 
         if ( capacitacion.user.toString() !== uid ) {
             return res.status(401).json({
                 ok: false,
-                msg: 'No tiene autorización de eliminar este evento'
+                msg: 'No tiene autorización de eliminar esta capacitacion'
             });
         } 
         

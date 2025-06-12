@@ -15,14 +15,14 @@ const { getPreventivos, crearPreventivo, actualizarPreventivo, eliminarPreventiv
 const router = Router();
 
 
-// Todas deben estar validadas por JWT
+// TODAS DEBEN ESTAR VALIDADAS POR JWT
 router.use( validarJWT );
 
-// Obtener preventivos
+// OBTENER TODOS LOS MANTENIMIENTOS PREVENTIVOS 
 
 router.get('/', getPreventivos );
 
-// Crear un nuevo preventivo
+// CREAR UN NUEVO MANTENIMIENTO PREVENTIVO
 router.post(
     '/',
     [
@@ -45,11 +45,11 @@ router.post(
     crearPreventivo
     );
 
-// Actualizar preventivo
+// ACTUALIZAR MANTENIMIENTO PREVENTIVO
 
 router.put('/:id', actualizarPreventivo );
 
-// Borrar preventivo
+// ELIMINAR MANTENIMIENTO PREVENTIVO
 
 router.delete('/:id', eliminarPreventivo );
 

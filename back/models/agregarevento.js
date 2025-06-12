@@ -1,8 +1,8 @@
 const {Schema, model} = require('mongoose');
 
-const CapacitacionSchema = Schema({
+const AgregareventoSchema = Schema({
 
-// DATOS DE LA CAPACITACION //
+// DATOS DEL NUEVO EVENTO //
 
     Equipo:{
         type: String,
@@ -46,10 +46,10 @@ const CapacitacionSchema = Schema({
     }
 });
 
-CapacitacionSchema.method('toJSON', function(){
+AgregareventoSchema.method('toJSON', function(){
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
     return object;
 })
 
-module.exports = model('Capacitacion',CapacitacionSchema);
+module.exports = model('Agregarevento',AgregareventoSchema);

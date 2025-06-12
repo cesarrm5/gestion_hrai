@@ -15,14 +15,14 @@ const { getCapacitaciones, crearCapacitacion, actualizarCapacitacion, eliminarCa
 const router = Router();
 
 
-// Todas deben estar validadas por JWT
+// TODAS DEBEN ESTAR VALIDADAS POR JWT 
 router.use( validarJWT );
 
-// Obtener capacitaciones
+// OBTENER TODAS CAPACITACIONES 
 
 router.get('/', getCapacitaciones );
 
-// Crear una nueva capacitacion
+// CREAR UNA NUEVA CAPACITACION 
 router.post(
     '/',
     [
@@ -41,11 +41,11 @@ router.post(
     crearCapacitacion
     );
 
-// Actualizar evento
+// ACTUALIZAR CAPACITACIONES 
 
 router.put('/:id', actualizarCapacitacion );
 
-// Borrar evento
+// BORRAR CAPACITACIONES 
 
 router.delete('/:id', eliminarCapacitacion );
 

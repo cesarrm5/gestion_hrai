@@ -16,14 +16,14 @@ const { getCorrectivos, crearCorrectivo, actualizarCorrectivo, eliminarCorrectiv
 const router = Router();
 
 
-// Todas deben estar validadas por JWT
+// TODAS DEBEN ESTAR VALIDADAS POR JWT 
 router.use( validarJWT );
 
-// Obtener correctivos
+// OBTENER TODOS MANTENIMIENTOS CORRECTIVOS
 
 router.get('/', getCorrectivos );
 
-// Crear un nuevo correctivo
+// CREAR UN NUEVO MANTENIMIENTO CORRECTIVO
 router.post(
     '/',
     [
@@ -46,11 +46,11 @@ router.post(
     crearCorrectivo
     );
 
-// Actualizar correctivo
+// ACTUALIZAR MANTENIMIENTO CORRECTIVO
 
 router.put('/:id', actualizarCorrectivo );
 
-// Borrar correctivo
+// BORRAR MANTENIMIENTO CORRECTIVO
 
 router.delete('/:id', eliminarCorrectivo );
 

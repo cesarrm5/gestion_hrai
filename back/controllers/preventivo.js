@@ -2,7 +2,7 @@
 const {response} = require('express'); 
 const Preventivo = require('../models/preventivo');
 
-// SE MOSTRARAN TODOS LOS EVENTOS
+// SE MOSTRARAN TODOS LOS MANTENIMIENTOS PREVENTIVOS
 const getPreventivos = async ( req, res = response) => {
 
     const preventivos = await Preventivo.find()
@@ -15,7 +15,7 @@ const getPreventivos = async ( req, res = response) => {
     });
 }
 
-// SE CREARAN NUEVOS EVENTOS
+// SE CREARAN NUEVOS MANTENIMIENTOS PREVENTIVOS
 const crearPreventivo = async ( req, res = response) => {
     
     const preventivo = new Preventivo( req.body );
@@ -40,7 +40,7 @@ const crearPreventivo = async ( req, res = response) => {
     }
 }
 
-// SE ACTUALIZARAN LOS EVENTOS CREADOS 
+// SE ACTUALIZARAN LOS MANTENIMIENTOS PREVENTIVOS
 const actualizarPreventivo = async ( req, res = response) => {
 
     const preventivoId = req.params.id;
@@ -86,7 +86,7 @@ const actualizarPreventivo = async ( req, res = response) => {
     
 }
 
-// SE PODRAN ELIMINAR EVENTOS QUE SE HAYAN CREADO ANTES 
+// SE PODRAN ELIMINAR MANTENIMIENTOS PREVENTIVOS QUE SE HAYAN CREADO ANTES 
 const eliminarPreventivo = async ( req, res = response) => {
 
     const preventivoId = req.params.id;
