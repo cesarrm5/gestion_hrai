@@ -4,11 +4,7 @@ const AgregareventoSchema = Schema({
 
 // DATOS DEL NUEVO EVENTO //
 
-    Equipo:{
-        type: String,
-        required: true
-    },
-    Folio: {
+    Nombre_del_evento:{
         type: String,
         required: true
     },
@@ -16,27 +12,6 @@ const AgregareventoSchema = Schema({
         type: String,
         required: true
     },
-    Duracion: {
-        type: String,
-        required: true
-    },
-    Dirigido: {
-        type: String,
-        required: true
-    },
-    Instructor: {
-        type: String,
-        required: true
-    },
-    Correo: {
-        type: String,
-        required: true
-    },
-    Area: {
-        type: String,
-        required: true
-    },
-
     // DATOS DEL USUARIO CREADOR
     
     user: {
