@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from "react-redux"
-import {calendarApi } from "../api"
-import { onChecking, onLogin, onLogout, clearErrorMessage} from "../store/auth/authSlice";
+import { useDispatch, useSelector } from 'react-redux'
+import {calendarApi } from '../api'
+import { onChecking, onLogin, onLogout, clearErrorMessage, onLogoutCalendar } from '../store';
+
 
 
 export const useAuthStore =()=>{
@@ -25,31 +26,71 @@ export const useAuthStore =()=>{
         }
     }
 
-    const startRegister = async({email, name, password, password2})=>{
+const startRegister = async({ name, username, email, password, birthdate, role, photo }) => {
+    try {
+        const { data } = await calendarApi.post('/auth/new', { 
+            name, 
+            username, 
+            email, 
+            password, 
+            birthdate,   
+            role, 
+            photo 
+        });
+
+        localStorage.setItem('uid', data.uid);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('token-init-date', new Date().getTime());
+
+        dispatch(onLogin({ name: data.name, uid: data.uid }));
+
+    } catch (error) {
+        console.log(error.response?.data); //PARA SABER QUE CAMPO ESTA FALLANDO
+        dispatch(onLogout(error.response?.data?.msg || 'El usuario ya existe'));
+        setTimeout(() => {
+            dispatch(clearErrorMessage());
+        }, 10);
+        }
+    }
+
+
+    const checkAuthToken = async() => {
+        const token = localStorage.getItem('token');
+        if ( !token ) return dispatch( onLogout() );
+        
         try {
-            let username = "Cesar";
-            let birthdate = "25 enero 2002";
-            const {data} = await calendarApi.post('/new', {name, username, password, birthdate});
+            const { data } = await calendarApi.get('auth/renew');
             localStorage.setItem('uid', data.uid);
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({name: data.name, uid: data.uid}));
-                       
+                     
         } catch (error) {
-           dispatch(onLogout('Credenciales Incorrectas'));
-           setTimeout(() => {
-                dispatch (clearErrorMessage());
-           }, 10);
+            localStorage.clear();
+            dispatch( onLogout() );
+            
         }
+
     }
+
+    const startLogout = () => {
+        localStorage.clear();
+        dispatch( onLogoutCalendar() );
+        dispatch(onLogout());
+    }
+
+
     return {
         //*propiedades
         status, 
         user, 
         errorMessage,
-        startLogin,
-        startRegister
 
-        //* Metodosd
+
+        //* Metodos
+        checkAuthToken,
+        startLogin,
+        startRegister,
+        startLogout,
     }
 }

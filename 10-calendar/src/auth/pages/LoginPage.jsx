@@ -11,16 +11,21 @@ const loginFormFields = {
 const registerFormFields = {
     registerEmail:     '',
     registerName:      '',
+    registerUsername:  '',
+    registerBirthdate:  '',
+    registerRole:      '',
+    registerPhoto:     '',
     registerPassword:  '',
-    registerPassword2: '',
+   // registerPassword2: '',
+
 }
 
 export const LoginPage = () => {
 
-    const {startLogin, errorMessage} = useAuthStore();
+    const {startLogin, errorMessage, startRegister} = useAuthStore();
 
     const {loginEmail, loginPassword, onInputChange:onLoginInputChange} = useForm(loginFormFields);
-    const {registerEmail, registerName, registerPassword, registerPassword2, onInputChange:onRegisterInputChange} = useForm(registerFormFields);
+    const {registerEmail, registerName, registerUsername, registerPhoto, registerPassword, registerPassword2, registerBirthdate, registerRole, onInputChange:onRegisterInputChange} = useForm(registerFormFields);
 
     const loginSubmit = (event)=>{
         event.preventDefault();
@@ -29,11 +34,37 @@ export const LoginPage = () => {
     
     const registerSubmit = (event)=>{
         event.preventDefault();
+        //Validar contraseña
         if (registerPassword !== registerPassword2){
             Swal.fire('Error en registro', 'Contraseñas no son iguales', 'error');
             return
         }
-        startRegister({email: registerEmail, name:registerName, password: registerPassword, password2:registerPassword2});
+
+        //Validar la selección del rol
+        if (!registerRole || registerRole.trim() === '') {
+            Swal.fire('Error en registro', 'Debe seleccionar un rol', 'error');
+            return;
+        }
+
+        //Validar fecha de cumpleaños
+        if (!registerBirthdate || isNaN(new Date(registerBirthdate).getTime())) {
+            Swal.fire('Error en registro', 'Debe ingresar una fecha de cumpleaños válida', 'error');
+            return;
+        } 
+
+        // Validar username
+        if (!registerUsername || registerUsername.trim() === '') {
+            Swal.fire('Error en registro', 'Debe ingresar un nombre de usuario', 'error');
+            return;
+        }
+
+    // Validar foto
+    if (!registerPhoto || registerPhoto.trim() === '') {
+        Swal.fire('Error en registro', 'Debe subir una foto (url)', 'error');
+        return;
+    }
+
+        startRegister({email: registerEmail, name:registerName, username: registerUsername, password: registerPassword, password2:registerPassword2, birthdate: registerBirthdate, role: registerRole, photo: registerPhoto, });
         //console.log({registerEmail, registerName, registerPassword, registerPassword2});
     }
 
@@ -92,6 +123,45 @@ export const LoginPage = () => {
                                 onChange={onRegisterInputChange}
                             />
                         </div>
+
+                <div className="form-group mb-2">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Nombre de usuario"
+                        name='registerUsername'
+                        value={registerUsername}
+                        onChange={onRegisterInputChange}
+                    />
+                </div>
+
+
+                        <div className="form-group mb-2">
+                            <input
+                                type="date"
+                                className="form-control"
+                                id="date-register"
+                                placeholder="Cumpleaños"
+                                name='registerBirthdate'
+                                value={registerBirthdate}
+                                onChange={onRegisterInputChange}
+                            />
+                        </div>
+                            <div className="form-group mb-2">
+                            <select
+                                className="form-control"
+                                placeholder="Rol"
+                                name='registerRole'
+                                value={registerRole}
+                                onChange={onRegisterInputChange}
+                            >
+                                <option value="">Seleccione un rol</option>
+                                <option value="admin">Administrador General</option>
+                                <option value="ingeniero">Ingeniero</option>
+                                <option value="usuario">Usuario</option>
+                            </select>
+                        </div>
+
                         <div className="form-group mb-2">
                             <input
                                 type="email"
@@ -123,6 +193,18 @@ export const LoginPage = () => {
                                 onChange={onRegisterInputChange}
                             />
                         </div>
+
+                        <div className="form-group mb-2">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="URL de foto"
+                                name='registerPhoto'
+                                value={registerPhoto}
+                                onChange={onRegisterInputChange}
+                            />
+                        </div>
+
 
                         <div className="d-grid gap-2">
                             <input 

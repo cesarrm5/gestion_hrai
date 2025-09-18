@@ -1,27 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 //import { Views } from 'react-big-calendar';
 
 
-
+import { SidebarLayout } from '../../layouts/SidebarLayout';
 import { Navbar, CalendarEvent, CalendarModal, FabAddNew, FabDelete } from '../';
 import { localizer, getMessagesES } from '../../helpers';
-import { useUiStore, useCalendarStore } from '../../hooks';
+import { useUiStore, useCalendarStore, useAuthStore } from '../../hooks';
 
 
 //Se agregó el div para el ancho de la pantalla del calendario 
 
 export const CalendarPage = () => {
 
+  const { user } = useAuthStore();
   const { openDateModal } = useUiStore();
-  const { events, SetActiveEvent } = useCalendarStore();
+  const { events, SetActiveEvent, starLoadingEvents } = useCalendarStore();
   const [ lastView, setlastView ] = useState(localStorage.getItem('lastView') || 'month')
 
 const eventStyleGetter = ( event, start, end, isSelected ) => {
 
+  const isMyEvent = ( user.uid === event.user._id ) || ( user.uid === event.user.uid );
+
   const style = {
-    backgroundColor: '#347CF7',
+    backgroundColor: isMyEvent ? '#347CF7' : '#465660',
     borderRadius: '0px',
     opacity: 0.8,
     color: 'white'
@@ -49,12 +52,17 @@ const onViewChanged = ( event ) => {
   setlastView( event )
 }
 
+useEffect(() => {
+    starLoadingEvents()
+}, [])
+
+
 
   return (
-    <>
+    <SidebarLayout>
       <Navbar />
       
-      <div style={{ paddingTop: '10px', width: '100vw', paddingLeft: '20px', paddingRight: '20px' }}> 
+      <div style={{ paddingTop: '10px', paddingLeft: '20px', paddingRight: '20px' }}> 
 
       <Calendar
         culture='es'
@@ -82,7 +90,7 @@ const onViewChanged = ( event ) => {
 
 
       </div>
-    </>
+    </SidebarLayout>
   )
 
 }

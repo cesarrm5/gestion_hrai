@@ -130,3 +130,18 @@ button:focus-visible {
   width: 70px;
   height: 70px;
 }
+
+input[type="date"] {
+  color: transparent; /* Color del texto cuando está vacío */
+}
+
+input[type="date"]:not(:placeholder-shown) {
+  color: red; /* Color del texto cuando ya hay una fecha */
+}
+ 
+
+
+
+
+
+
