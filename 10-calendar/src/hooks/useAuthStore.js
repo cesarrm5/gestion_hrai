@@ -26,21 +26,30 @@ export const useAuthStore =()=>{
         }
     }
 
-    const startRegister = async({email, name, password, birthday, role})=>{
-        try {
-            //let username = "Helen";
-            //let birthdate = "25 abril 2001";
-            const {data} = await calendarApi.post('/auth/new', { name, email, password, birthday, role});
-            localStorage.setItem('uid', data.uid);
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
-            dispatch(onLogin({name: data.name, uid: data.uid}));
-                       
-        } catch (error) {
-           dispatch(onLogout( error.response.data?.msg || 'El usuario ya existe'));
-           setTimeout(() => {
-                dispatch (clearErrorMessage());
-           }, 10);
+const startRegister = async({ name, username, email, password, birthdate, role, photo }) => {
+    try {
+        const { data } = await calendarApi.post('/auth/new', { 
+            name, 
+            username, 
+            email, 
+            password, 
+            birthdate,   
+            role, 
+            photo 
+        });
+
+        localStorage.setItem('uid', data.uid);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('token-init-date', new Date().getTime());
+
+        dispatch(onLogin({ name: data.name, uid: data.uid }));
+
+    } catch (error) {
+        console.log(error.response?.data); //PARA SABER QUE CAMPO ESTA FALLANDO
+        dispatch(onLogout(error.response?.data?.msg || 'El usuario ya existe'));
+        setTimeout(() => {
+            dispatch(clearErrorMessage());
+        }, 10);
         }
     }
 

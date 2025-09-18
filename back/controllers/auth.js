@@ -7,7 +7,7 @@ const {generarJWT} = require('../helpers/jwt');
 //CREAR USUARIO
 const crearUsuario = async(req, res = response) => {    
 
-    const {name, username, email, password, birthdate, role, foto} = req.body;
+    const {name, username, email, password, birthdate, role, photo} = req.body;
 
     try {
         let usuario = await Usuario.findOne({email});
@@ -42,12 +42,6 @@ const crearUsuario = async(req, res = response) => {
 
         })  
 
-  
-    res.status(201).json({
-        ok:true,
-        uid: usuario.id,
-        name: usuario.name
-    });
 
     } catch (error){
         res.status(500).json({

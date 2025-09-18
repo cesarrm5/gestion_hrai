@@ -11,10 +11,12 @@ const loginFormFields = {
 const registerFormFields = {
     registerEmail:     '',
     registerName:      '',
+    registerUsername:  '',
     registerBirthdate:  '',
-    registerRole:      '',    
+    registerRole:      '',
+    registerPhoto:     '',
     registerPassword:  '',
-    registerPassword2: '',
+   // registerPassword2: '',
 
 }
 
@@ -23,7 +25,7 @@ export const LoginPage = () => {
     const {startLogin, errorMessage, startRegister} = useAuthStore();
 
     const {loginEmail, loginPassword, onInputChange:onLoginInputChange} = useForm(loginFormFields);
-    const {registerEmail, registerName, registerPassword, registerPassword2, registerBirthdate, registerRole, onInputChange:onRegisterInputChange} = useForm(registerFormFields);
+    const {registerEmail, registerName, registerUsername, registerPhoto, registerPassword, registerPassword2, registerBirthdate, registerRole, onInputChange:onRegisterInputChange} = useForm(registerFormFields);
 
     const loginSubmit = (event)=>{
         event.preventDefault();
@@ -50,7 +52,19 @@ export const LoginPage = () => {
             return;
         } 
 
-        startRegister({email: registerEmail, name:registerName, password: registerPassword, password2:registerPassword2, birthdate: registerBirthdate, role: registerRole });
+        // Validar username
+        if (!registerUsername || registerUsername.trim() === '') {
+            Swal.fire('Error en registro', 'Debe ingresar un nombre de usuario', 'error');
+            return;
+        }
+
+    // Validar foto
+    if (!registerPhoto || registerPhoto.trim() === '') {
+        Swal.fire('Error en registro', 'Debe subir una foto (url)', 'error');
+        return;
+    }
+
+        startRegister({email: registerEmail, name:registerName, username: registerUsername, password: registerPassword, password2:registerPassword2, birthdate: registerBirthdate, role: registerRole, photo: registerPhoto, });
         //console.log({registerEmail, registerName, registerPassword, registerPassword2});
     }
 
@@ -110,6 +124,18 @@ export const LoginPage = () => {
                             />
                         </div>
 
+                <div className="form-group mb-2">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Nombre de usuario"
+                        name='registerUsername'
+                        value={registerUsername}
+                        onChange={onRegisterInputChange}
+                    />
+                </div>
+
+
                         <div className="form-group mb-2">
                             <input
                                 type="date"
@@ -167,6 +193,18 @@ export const LoginPage = () => {
                                 onChange={onRegisterInputChange}
                             />
                         </div>
+
+                        <div className="form-group mb-2">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="URL de foto"
+                                name='registerPhoto'
+                                value={registerPhoto}
+                                onChange={onRegisterInputChange}
+                            />
+                        </div>
+
 
                         <div className="d-grid gap-2">
                             <input 
