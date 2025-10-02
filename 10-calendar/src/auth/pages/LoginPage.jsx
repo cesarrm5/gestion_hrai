@@ -1,220 +1,225 @@
-import {useEffect} from 'react';
+// src/auth/pages/LoginPage.jsx
+import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useForm, useAuthStore } from '../../hooks';
 import './LoginPage.css';
 
-const loginFormFields = {
-    loginEmail:     '',
-    loginPassword: '',
-}
+const loginFormFields = { loginEmail: '', loginPassword: '' };
 
 const registerFormFields = {
-    registerEmail:     '',
-    registerName:      '',
-    registerUsername:  '',
-    registerBirthdate:  '',
-    registerRole:      '',
-    registerPhoto:     '',
-    registerPassword:  '',
-   // registerPassword2: '',
-
-}
+  registerEmail: '',
+  registerName: '',
+  registerUsername: '',
+  registerBirthdate: '',
+  registerRole: '',
+  registerPhoto: '',
+  registerPassword: '',
+  registerPassword2: '',
+};
 
 export const LoginPage = () => {
+  const { startLogin, errorMessage, startRegister } = useAuthStore();
 
-    const {startLogin, errorMessage, startRegister} = useAuthStore();
+  const {
+    loginEmail,
+    loginPassword,
+    onInputChange: onLoginInputChange,
+  } = useForm(loginFormFields);
 
-    const {loginEmail, loginPassword, onInputChange:onLoginInputChange} = useForm(loginFormFields);
-    const {registerEmail, registerName, registerUsername, registerPhoto, registerPassword, registerPassword2, registerBirthdate, registerRole, onInputChange:onRegisterInputChange} = useForm(registerFormFields);
+  const {
+    registerEmail,
+    registerName,
+    registerUsername,
+    registerPhoto,
+    registerPassword,
+    registerPassword2,
+    registerBirthdate,
+    registerRole,
+    onInputChange: onRegisterInputChange,
+  } = useForm(registerFormFields);
 
-    const loginSubmit = (event)=>{
-        event.preventDefault();
-        startLogin({email: loginEmail, password: loginPassword});
+  const loginSubmit = (e) => {
+    e.preventDefault();
+    startLogin({ email: loginEmail, password: loginPassword });
+  };
+
+  const registerSubmit = (e) => {
+    e.preventDefault();
+
+    if (registerPassword !== registerPassword2) {
+      Swal.fire('Error en registro', 'Contraseñas no son iguales', 'error');
+      return;
     }
-    
-    const registerSubmit = (event)=>{
-        event.preventDefault();
-        //Validar contraseña
-        if (registerPassword !== registerPassword2){
-            Swal.fire('Error en registro', 'Contraseñas no son iguales', 'error');
-            return
-        }
-
-        //Validar la selección del rol
-        if (!registerRole || registerRole.trim() === '') {
-            Swal.fire('Error en registro', 'Debe seleccionar un rol', 'error');
-            return;
-        }
-
-        //Validar fecha de cumpleaños
-        if (!registerBirthdate || isNaN(new Date(registerBirthdate).getTime())) {
-            Swal.fire('Error en registro', 'Debe ingresar una fecha de cumpleaños válida', 'error');
-            return;
-        } 
-
-        // Validar username
-        if (!registerUsername || registerUsername.trim() === '') {
-            Swal.fire('Error en registro', 'Debe ingresar un nombre de usuario', 'error');
-            return;
-        }
-
-    // Validar foto
-    if (!registerPhoto || registerPhoto.trim() === '') {
-        Swal.fire('Error en registro', 'Debe subir una foto (url)', 'error');
-        return;
+    if (!registerRole?.trim()) {
+      Swal.fire('Error en registro', 'Debe seleccionar un rol', 'error');
+      return;
+    }
+    if (!registerBirthdate || isNaN(new Date(registerBirthdate).getTime())) {
+      Swal.fire(
+        'Error en registro',
+        'Debe ingresar una fecha de cumpleaños válida',
+        'error'
+      );
+      return;
+    }
+    if (!registerUsername?.trim()) {
+      Swal.fire(
+        'Error en registro',
+        'Debe ingresar un nombre de usuario',
+        'error'
+      );
+      return;
+    }
+    if (!registerPhoto?.trim()) {
+      Swal.fire('Error en registro', 'Debe subir una foto (url)', 'error');
+      return;
     }
 
-        startRegister({email: registerEmail, name:registerName, username: registerUsername, password: registerPassword, password2:registerPassword2, birthdate: registerBirthdate, role: registerRole, photo: registerPhoto, });
-        //console.log({registerEmail, registerName, registerPassword, registerPassword2});
+    startRegister({
+      email: registerEmail,
+      name: registerName,
+      username: registerUsername,
+      password: registerPassword,
+      password2: registerPassword2,
+      birthdate: registerBirthdate,
+      role: registerRole,
+      photo: registerPhoto,
+    });
+  };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire('Error en la autenticación', errorMessage, 'error');
     }
+  }, [errorMessage]);
 
-    useEffect(() => {
-        if(errorMessage != undefined){
-            Swal.fire('Error en la autenticación', errorMessage,'error');
-        }
-    }, [errorMessage]);
+  return (
+    <div className="auth-shell">
+      {/* Columna izquierda: tarjetas */}
+      <div className="auth-grid">
+        {/* Ingreso */}
+        <section className="login-card login-form-1">
+          <h3>Ingreso</h3>
+          <form onSubmit={loginSubmit} className="login-form">
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Correo"
+              name="loginEmail"
+              autoComplete="email"
+              value={loginEmail}
+              onChange={onLoginInputChange}
+            />
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Contraseña"
+              name="loginPassword"
+              autoComplete="current-password"
+              value={loginPassword}
+              onChange={onLoginInputChange}
+            />
+            <button type="submit" className="btnSubmit btnSubmit--primary">
+              Login
+            </button>
+          </form>
+        </section>
 
-    return (
-        <div className="container login-container">
-            <div className="row">
-                <div className="col-md-12 login-form-1">
-                    <h3>Ingreso</h3>
-                    <form onSubmit={loginSubmit}>
-                        <div className="form-group mb-2">
-                            <input 
-                                type="text"
-                                className="form-control"
-                                placeholder="Correo"
-                                name='loginEmail'
-                                value={loginEmail}
-                                onChange={onLoginInputChange}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Contraseña"
-                                name='loginPassword'
-                                value={loginPassword}
-                                onChange={onLoginInputChange}
-                            />
-                        </div>
-                        <div className="d-grid gap-2">
-                            <input 
-                                type="submit"
-                                className="btnSubmit"
-                                value="Login" 
-                            />
-                        </div>
-                    </form>
-                </div>
+        {/* Registro */}
+        <section className="login-card login-form-2">
+          <h3>Registro</h3>
+          <form onSubmit={registerSubmit} className="login-form">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre"
+              name="registerName"
+              value={registerName}
+              onChange={onRegisterInputChange}
+            />
 
-                <div className="col-md-12 login-form-2">
-                    <h3>Registro</h3>
-                    <form onSubmit={registerSubmit}>
-                        <div className="form-group mb-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nombre"
-                                name='registerName'
-                                value={registerName}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre de usuario"
+              name="registerUsername"
+              value={registerUsername}
+              onChange={onRegisterInputChange}
+            />
 
-                <div className="form-group mb-2">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Nombre de usuario"
-                        name='registerUsername'
-                        value={registerUsername}
-                        onChange={onRegisterInputChange}
-                    />
-                </div>
+            <input
+              type="date"
+              className="form-control"
+              id="date-register"
+              placeholder="Cumpleaños"
+              name="registerBirthdate"
+              value={registerBirthdate}
+              onChange={onRegisterInputChange}
+            />
 
+            <select
+              className="form-control"
+              name="registerRole"
+              value={registerRole}
+              onChange={onRegisterInputChange}
+            >
+              <option value="">Seleccione un rol</option>
+              <option value="admin">Administrador General</option>
+              <option value="ingeniero">Ingeniero</option>
+              <option value="usuario">Usuario</option>
+            </select>
 
-                        <div className="form-group mb-2">
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="date-register"
-                                placeholder="Cumpleaños"
-                                name='registerBirthdate'
-                                value={registerBirthdate}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
-                            <div className="form-group mb-2">
-                            <select
-                                className="form-control"
-                                placeholder="Rol"
-                                name='registerRole'
-                                value={registerRole}
-                                onChange={onRegisterInputChange}
-                            >
-                                <option value="">Seleccione un rol</option>
-                                <option value="admin">Administrador General</option>
-                                <option value="ingeniero">Ingeniero</option>
-                                <option value="usuario">Usuario</option>
-                            </select>
-                        </div>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Correo"
+              name="registerEmail"
+              autoComplete="email"
+              value={registerEmail}
+              onChange={onRegisterInputChange}
+            />
 
-                        <div className="form-group mb-2">
-                            <input
-                                type="email"
-                                className="form-control"
-                                placeholder="Correo"
-                                name='registerEmail'
-                                value={registerEmail}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Contraseña" 
-                                name='registerPassword'
-                                value={registerPassword}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Contraseña"
+              name="registerPassword"
+              autoComplete="new-password"
+              value={registerPassword}
+              onChange={onRegisterInputChange}
+            />
 
-                        <div className="form-group mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Repita la contraseña" 
-                                name='registerPassword2'
-                                value={registerPassword2}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Repita la contraseña"
+              name="registerPassword2"
+              autoComplete="new-password"
+              value={registerPassword2}
+              onChange={onRegisterInputChange}
+            />
 
-                        <div className="form-group mb-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="URL de foto"
-                                name='registerPhoto'
-                                value={registerPhoto}
-                                onChange={onRegisterInputChange}
-                            />
-                        </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="URL de foto"
+              name="registerPhoto"
+              value={registerPhoto}
+              onChange={onRegisterInputChange}
+            />
 
+            <button type="submit" className="btnSubmit btnSubmit--light">
+              Crear cuenta
+            </button>
+          </form>
+        </section>
+      </div>
 
-                        <div className="d-grid gap-2">
-                            <input 
-                                type="submit" 
-                                className="btnSubmit" 
-                                value="Crear cuenta" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    )
-}
+      {/* Columna derecha: panel con imagen (oculto en móvil por CSS) */}
+      <aside
+        className="auth-art"
+        style={{ backgroundImage: 'url(/assets/Fondo2.jpeg)' }}
+      />
+    </div>
+  );
+};

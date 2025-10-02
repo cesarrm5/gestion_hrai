@@ -1,34 +1,45 @@
 // src/components/SidebarMenu.jsx
 import React from 'react';
-import './SidebarMenu.css';
 import { NavLink } from 'react-router-dom';
+import './SidebarMenu.css';
 
 export const SidebarMenu = () => {
+  const navClass = ({ isActive }) => `nav-item${isActive ? ' active' : ''}`;
+
   return (
-    <div className="sidebar-header">
-        <h1></h1> 
-      <h5>DEPARTAMENTO<br />DE BIOMÉDICA</h5>
+    <aside className="sidebar-header">
+      {/* Encabezado del menú */}
+      <h1 className="sr-only">Menú lateral</h1>
+      <h5>
+        DEPARTAMENTO
+        <br />
+        DE BIOMÉDICA
+      </h5>
+
       <nav>
         <div className="nav-section"></div>
-        <div className="nav-item disabled">
-          <i className="fas fa-home"></i> Inicio
-        </div>
-        <div className="nav-item disabled">
-          <i className="fas fa-clipboard-list"></i> Inventario
-        </div>
-        <NavLink
-        to="/mantenimiento"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-        <i className="fas fa-tools"></i> Mantenimiento
+
+        <NavLink to="/inicio" className={navClass} end>
+          <i className="fas fa-home"></i> <span>Inicio</span>
         </NavLink>
-        <div className="nav-item disabled"> 
-          <i className="fas fa-chalkboard-teacher"></i> Capacitación
-        </div>
-        <div className="nav-item disabled">
-          <i className="fas fa-user"></i> Usuario
-        </div>
+
+        <NavLink to="/inventario" className={navClass} end>
+          <i className="fas fa-clipboard-list"></i> <span>Inventario</span>
+        </NavLink>
+
+        <NavLink to="/mantenimiento" className={navClass} end>
+          <i className="fas fa-tools"></i> <span>Mantenimiento</span>
+        </NavLink>
+
+        {/* URL sin acento en la ruta, el texto sí mantiene el acento */}
+        <NavLink to="/capacitacion" className={navClass} end>
+          <i className="fas fa-chalkboard-teacher"></i> <span>Capacitación</span>
+        </NavLink>
+
+        <NavLink to="/usuario" className={navClass} end>
+          <i className="fas fa-user"></i> <span>Usuario</span>
+        </NavLink>
       </nav>
-    </div>
+    </aside>
   );
 };

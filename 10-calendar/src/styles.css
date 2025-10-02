@@ -136,7 +136,7 @@ input[type="date"] {
 }
 
 input[type="date"]:not(:placeholder-shown) {
-  color: red; /* Color del texto cuando ya hay una fecha */
+  color: rgba(59, 57, 57, 0.784); /* Color del texto cuando ya hay una fecha */
 }
  
 
